@@ -1,0 +1,85 @@
+Sub HaSon()
+
+Application.DisplayAlerts = False
+Application.ScreenUpdating = False
+
+Dim Inp As Worksheet
+Dim Samp As Worksheet
+Dim Output As Worksheet
+Dim P As Range
+Dim uniqueValues As Collection
+Dim cellValue As Variant
+
+Set Inp = ThisWorkbook.Sheets("E0")
+Set Samp = ThisWorkbook.Sheets("E1")
+Set Output = ThisWorkbook.Sheets("E2")
+Set P = Output.Range("G8:G17")
+Set uniqueValues = New Collection
+
+Samp.Cells.Clear
+Inp.AutoFilterMode = False
+
+Inp.UsedRange.Copy Samp.Range("A1")
+Samp.Range("D:Z").Clear
+Samp.UsedRange.RemoveDuplicates 1, xlYes
+
+Dim i As Integer
+Dim j As Integer
+Dim k As Integer
+Dim lr As Integer
+lr = Application.WorksheetFunction.CountA(Inp.Range("A:A"))
+
+Dim folder_Path As String
+
+folder_Path = ThisWorkbook.Sheets("1").Range("G19").Value
+
+If Right(folder_Path, 1) <> "\" Then folder_Path = folder_Path & "\"
+
+Dim nwb As Workbook
+
+If Application.WorksheetFunction.CountA(Samp.Range("A:A")) > 1 Then
+
+    For i = 2 To Application.WorksheetFunction.CountA(Samp.Range("A:A"))
+        Inp.UsedRange.AutoFilter 1, Samp.Cells(i, 1).Value
+        Output.Range("B8:H17").ClearContents
+        Inp.Range("D2:D" & lr).SpecialCells(xlCellTypeVisible).Copy
+        Output.Range("D8").PasteSpecial xlPasteValuesAndNumberFormats
+        Inp.Range("E2:F" & lr).SpecialCells(xlCellTypeVisible).Copy
+        Output.Range("B8").PasteSpecial xlPasteValuesAndNumberFormats
+        Inp.Range("G2:J" & lr).SpecialCells(xlCellTypeVisible).Copy
+        Output.Range("E8").PasteSpecial xlPasteValuesAndNumberFormats
+        Inp.AutoFilterMode = False
+        
+        Output.Range("A4").Value = Samp.Cells(i, 2).Value
+        
+        If file_type = "PDF" Then
+            Output.ExportAsFixedFormat xlTypePDF, folder_Path & Samp.Cells(i, 1) & ".pdf"
+        ElseIf file_type = "EXCEL" Then
+            Output.Copy
+            Set nwb = ActiveWorkbook
+            nwb.Sheets(1).UsedRange.Copy
+            nwb.Sheets(1).UsedRange.PasteSpecial xlPasteValues
+        On Error Resume Next
+        For Each cell In inputRange
+            uniqueValues.Add cell.Value, CStr(cell.Value)
+            Next cell
+        On Error GoTo 0
+        For k = 21 To uniqueValues.Count
+        Output.Cells(k, 7).Value = uniqueValues(k)
+        Next k
+        For j = 68 To 9 Step -1
+            If nwb.Sheets(1).Range("B" & j).Value = "" Then
+            nwb.Sheets(1).Range("B" & j).EntireRow.Delete
+            End If
+        Next j
+            nwb.SaveAs folder_Path & Samp.Cells(i, 1) & ".xlsx"
+            nwb.Close
+        End If
+        
+    Next i
+
+End If
+
+MsgBox "Done"
+
+End Sub
