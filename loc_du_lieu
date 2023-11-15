@@ -1,0 +1,13 @@
+Sub loc_du_lieu()
+Dim ten_chi_nhanh As Range
+  For Each ten_chi_nhanh In Sheet1.Range("H1:H3")
+      Sheet1.Range("A1:B7").Parent.AutoFilterMode = False
+      Sheet1.Range("A1:B7").AutoFilter
+      Sheet1.Range("A1:B7").AutoFilter Field:=1, Criteria1:=ten_chi_nhanh.Value
+      Sheet1.Range("A1:B7").Parent.AutoFilter.Range.Copy
+
+      Sheets.Add After:=Sheets(Sheets.count)
+      Sheets(Sheets.count).Name = ten_chi_nhanh.Value
+      Sheets(Sheets.count).Range("A1").PasteSpecial xlPasteValues
+  Next ten_chi_nhanh
+End Sub
