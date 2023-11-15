@@ -1,0 +1,19 @@
+Sub GetSheets()
+    Dim path As String
+    Dim wb As Workbook
+    Dim sh As Worksheet
+    path = "C:\Users\thanhnguyen\Desktop\Ung dung 02\"
+    Filename = Dir(path & "*.xlsx")
+    Application.ScreenUpdating = False
+    Do While Filename <> ""
+        Set wb = Workbooks.Open(Filename:=path & Filename, ReadOnly:=True)
+        For Each sh In wb.Sheets
+            sh.Copy after:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count)
+            ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count).Name = wb.Name & " - " & sh.Name
+        Next sh
+        wb.Close
+        Filename = Dir()
+    Loop
+    Application.ScreenUpdating = True
+    MsgBox "Done"
+End Sub
