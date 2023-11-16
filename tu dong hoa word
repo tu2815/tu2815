@@ -5,6 +5,7 @@ Dim i As Long, j As Long
 Dim template As Object
 Dim t As Object
 
+'Số cột
 num_of_column = 6
 
 num_of_cust = Sheet1.Cells(Rows.Count, "A").End(xlUp).Row - 1
@@ -17,5 +18,15 @@ With CreateObject("word.application") ' late binding
         Set t = template.Content
         For j = 1 To num_of_column
             t.Find.Execute _
-                
+                FindText:=Sheet1.Cells(1, j).Value, _
+                ReplaceWith:=Sheet1.Cells(i + 1, j).Value, _
+                Replace:=2
+        Next
+        template.SaveAs Filename:=ThisWorkbook.Path & Application.PathSeparator & i & "-giay_moi.docx"
+    Next
+    .Quit
+    End With
+    Set t = Nothing
+    Set template = Nothing
+End Sub
         
