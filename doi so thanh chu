@@ -1,0 +1,176 @@
+Private Function dochangchuc(ByVal so As Long, ByVal daydu As Boolean) As String
+    Dim mangso
+    mangso = Array("không", "m" & ChrW(7897) & "t", "hai", "ba", "b" & ChrW(7889) & "n", "n" & ChrW(259) & "m", "sáu", "b" & ChrW(7843) & "y", "tám", "chín")
+    
+    Dim chuoi As String: chuoi = ""
+    Dim chuc As Long
+    Dim donvi As Long
+    chuc = WorksheetFunction.Floor(so / 10, 1)
+    donvi = so Mod 10
+    
+    If chuc > 1 Then
+        chuoi = " " & mangso(chuc) + " m" & ChrW(432) & ChrW(417) & "i"
+        If donvi = 1 Then
+            chuoi = chuoi & " m" & ChrW(7889) & "t"
+        End If
+    ElseIf chuc = 1 Then
+        chuoi = " m" & ChrW(432) & ChrW(7901) & "i"
+        If donvi = 1 Then
+            chuoi = chuoi & " m" & ChrW(7897) & "t"
+        End If
+    ElseIf (daydu And donvi > 0) Then
+        chuoi = " l" & ChrW(7867)
+    End If
+    
+    If donvi = 5 And chuc >= 1 Then
+        chuoi = chuoi & " l" & ChrW(259) & "m"
+    ElseIf (donvi > 1 Or (donvi = 1 And chuc = 0)) Then
+        chuoi = chuoi & " " & mangso(donvi)
+    End If
+    
+    dochangchuc = chuoi
+End Function
+Private Function docblock(ByVal so As Long, ByVal daydu As Boolean) As String
+    Dim mangso
+    mangso = Array("không", "m" & ChrW(7897) & "t", "hai", "ba", "b" & ChrW(7889) & "n", "n" & ChrW(259) & "m", "sáu", "b" & ChrW(7843) & "y", "tám", "chín")
+    
+    Dim chuoi As String: chuoi = ""
+    Dim tram As Long
+
+    tram = WorksheetFunction.Floor(so / 100, 1)
+    so = so Mod 100
+    If daydu Or tram > 0 Then
+        chuoi = " " & mangso(tram) + " tr" & ChrW(259) & "m"
+        chuoi = chuoi & dochangchuc(so, True)
+    Else
+        chuoi = dochangchuc(so, False)
+    End If
+    docblock = chuoi
+End Function
+Function toNum(r As Range, Optional money_unit As Boolean = False) As String
+    Dim n, s, s_cach, s_ngan, s_trieu, s_ty, iLength
+    s_cach = " "
+    s_ngan = ChrW(110) & ChrW(103) & ChrW(224) & ChrW(110)
+    s_trieu = ChrW(116) & ChrW(114) & ChrW(105) & ChrW(7879) & ChrW(117)
+    s_ty = ChrW(116) & ChrW(7927)
+    s_dong = ChrW(273) & ChrW(7891) & "ng"
+    Dim group1 As String, group2 As String, group3 As String, group4 As String, group5 As String
+    Dim group11 As String, group22 As String, group33 As String
+    n = r.Value2
+    
+    If CDbl(n) = 0 Then
+        toNum = "không"
+        If money_unit Then toNum = Trim(toNum) & s_cach & s_dong
+        Exit Function
+    End If
+    
+    iLength = Len(CStr(n))
+    If iLength > 18 Then
+        toNum = "!!N.A!!"
+        Exit Function
+    End If
+    
+    If iLength <= 3 Then
+        toNum = docblock(CLng(n), False)
+    ElseIf (iLength > 3) And (iLength <= 6) Then
+        group1 = Right(n, 3)
+        group2 = Left(n, iLength - 3)
+        toNum = docblock(CLng(group2), False) & s_cach & s_ngan & docGroup(group1, 1)
+    ElseIf (iLength > 6) And (iLength <= 9) Then
+        group1 = Right(n, 3)
+        group2 = Mid(n, iLength - 5, 3)
+        group3 = Left(n, iLength - 6)
+        toNum = docblock(CLng(group3), False) & s_cach & s_trieu & _
+        docGroup(group2, 2) & docGroup(group1, 1)
+    ElseIf iLength > 9 And iLength <= 12 Then
+        group1 = Right(n, 3)
+        group2 = Mid(n, iLength - 5, 3)
+        group3 = Mid(n, iLength - 8, 3)
+        group4 = Left(n, iLength - 9)
+        toNum = docblock(CLng(group4), False) & s_cach & s_ty & _
+        docGroup(group3, 3) & docGroup(group2, 2) & docGroup(group1, 1)
+    ElseIf iLength > 12 And iLength <= 15 Then
+        group1 = Right(n, 3)
+        group2 = Mid(n, iLength - 5, 3)
+        group3 = Mid(n, iLength - 8, 3)
+        group4 = Mid(n, iLength - 11, 3)
+        group5 = Left(n, iLength - 12)
+        toNum = docblock(CLng(group5), False) & s_cach & s_ngan & _
+        docGroup2(group4, 4) & docGroup(group3, 3) & docGroup(group2, 2) & docGroup(group1, 1)
+    ElseIf iLength > 15 And iLength <= 18 Then
+        group1 = Right(n, 3)
+        group2 = Mid(n, iLength - 5, 3)
+        group3 = Mid(n, iLength - 8, 3)
+        
+        group11 = Mid(n, iLength - 11, 3)
+        group22 = Mid(n, iLength - 14, 3)
+        group33 = Left(n, iLength - 15)
+        
+        toNum = docblock(CLng(group33), False) & s_cach & s_trieu & _
+        docGroup(group22, 2) & docGroup(group11, 1) & s_cach & s_ty & _
+        docGroup(group3, 3) & _
+        docGroup(group2, 2) & docGroup(group1, 1)
+    End If
+    If money_unit Then toNum = Trim(toNum) & s_cach & s_dong
+End Function
+Private Function docGroup(group As String, Optional lop As Integer) As String
+    Dim n, s, s_cach, s_ngan, s_trieu, s_ty, iLength
+    s_cach = " "
+    s_ngan = ChrW(110) & ChrW(103) & ChrW(224) & ChrW(110)
+    s_trieu = ChrW(116) & ChrW(114) & ChrW(105) & ChrW(7879) & ChrW(117)
+    s_ty = ChrW(116) & ChrW(7927)
+    If group = "000" Then
+        docGroup = vbNullString
+    Else
+        If lop = 1 Then
+            docGroup = docblock(CLng(group), True)
+        ElseIf lop = 2 Then
+            docGroup = docblock(CLng(group), True) & s_cach & s_ngan
+        ElseIf lop = 3 Then
+            docGroup = docblock(CLng(group), True) & s_cach & s_trieu
+        ElseIf lop = 4 Then
+            docGroup = docblock(CLng(group), True) & s_cach & s_ty
+        End If
+    End If
+End Function
+Private Function docGroup2(group As String, Optional lop As Integer) As String
+    Dim n, s, s_cach, s_ngan, s_trieu, s_ty, iLength
+    s_cach = " "
+    s_ngan = ChrW(110) & ChrW(103) & ChrW(224) & ChrW(110)
+    s_trieu = ChrW(116) & ChrW(114) & ChrW(105) & ChrW(7879) & ChrW(117)
+    s_ty = ChrW(116) & ChrW(7927)
+    If group = "000" Then
+        If lop = 2 Then
+            docGroup2 = s_cach & s_ngan
+        ElseIf lop = 3 Then
+            docGroup2 = s_cach & s_trieu
+        ElseIf lop = 4 Then
+            docGroup2 = s_cach & s_ty
+        End If
+    Else
+        If lop = 1 Then
+            docGroup2 = docblock(CLng(group), True)
+        ElseIf lop = 2 Then
+            docGroup2 = docblock(CLng(group), True) & s_cach & s_ngan
+        ElseIf lop = 3 Then
+            docGroup2 = docblock(CLng(group), True) & s_cach & s_trieu
+        ElseIf lop = 4 Then
+            docGroup2 = docblock(CLng(group), True) & s_cach & s_ty
+        End If
+    End If
+End Function
+Sub goto_youtube(control As IRibbonControl)
+    CreateObject("Wscript.Shell").Run ("http://bit.ly/2iEA13T")
+End Sub
+Sub goto_blog(control As IRibbonControl)
+    CreateObject("Wscript.Shell").Run ("http://bit.ly/2wOEGGG")
+End Sub
+Sub goto_heo(control As IRibbonControl)
+    CreateObject("Wscript.Shell").Run ("http://bit.ly/2xtwp7V")
+End Sub
+Sub goto_facebook(control As IRibbonControl)
+    CreateObject("Wscript.Shell").Run ("http://bit.ly/2vzEhnm")
+End Sub
+Sub goto_group(control As IRibbonControl)
+    CreateObject("Wscript.Shell").Run ("http://bit.ly/2vFBxDV")
+End Sub
