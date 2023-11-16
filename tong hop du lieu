@@ -13,7 +13,7 @@ Sub gop_du_lieu()
                 r.Copy Sheet1.Range("A4")
             Else
                 Set r = ws.Range("A1").CurrentRegion.Offset(1)
-                r.Copy Sheet1.Range("A" & dong_cuoi + 1)
+                r.Copy Sheet1.Range("A" & lr + 1)
                 lr = lr + r.Rows.Count - 1
             End If
         End If
