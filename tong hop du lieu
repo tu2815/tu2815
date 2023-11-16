@@ -1,7 +1,7 @@
 Sub gop_du_lieu()
     Dim ws As Worksheet
     Dim r As Range
-    Dim dong_cuoi As Long
+    Dim lr As Long
     Dim c As Long
 
     For Each ws In Worksheets
@@ -9,12 +9,12 @@ Sub gop_du_lieu()
             c = c + 1
             If c = 1 Then
                 Set r = ws.Range("A1").CurrentRegion
-                dong_cuoi = r.Rows.Count + 3
+                lr = r.Rows.Count + 3
                 r.Copy Sheet1.Range("A4")
             Else
                 Set r = ws.Range("A1").CurrentRegion.Offset(1)
                 r.Copy Sheet1.Range("A" & dong_cuoi + 1)
-                dong_cuoi = dong_cuoi + r.Rows.Count - 1
+                lr = lr + r.Rows.Count - 1
             End If
         End If
     Next
