@@ -1,13 +1,32 @@
 Sub loc_du_lieu()
-Dim ten_chi_nhanh As Range
-  For Each ten_chi_nhanh In Sheet1.Range("H1:H3")
-      Sheet1.Range("A1:B7").Parent.AutoFilterMode = False
-      Sheet1.Range("A1:B7").AutoFilter
-      Sheet1.Range("A1:B7").AutoFilter Field:=1, Criteria1:=ten_chi_nhanh.Value
-      Sheet1.Range("A1:B7").Parent.AutoFilter.Range.Copy
+    Dim sFullPath As String
+    sFullPath = Application.GetOpenFilename(, _
+                          Title:="Please select an Excel file")
+    If TypeName(sFullPath) = "False" Then Exit Sub
+    Dim sourceWb As Workbook
+    Set sourceWb = Workbooks.Open(sFullPath)
 
-      Sheets.Add After:=Sheets(Sheets.count)
-      Sheets(Sheets.count).Name = ten_chi_nhanh.Value
-      Sheets(Sheets.count).Range("A1").PasteSpecial xlPasteValues
-  Next ten_chi_nhanh
+    Dim cn As Range
+    Dim tt As Range
+
+    'dieu kien 1
+    For Each cn In sourceWb.Sheets("Sheet1").Range("H1:H3")
+        'dieu kien 2
+        For Each tt In sourceWb.Sheets("Sheet1").Range("I1:I2")
+            With sourceWb.Sheets("Sheet1").Range("A1:C7")
+                .Parent.AutoFilterMode = False
+                .AutoFilter
+                'loc dieu kien 1
+                .AutoFilter field:=1, Criteria1:=cn
+                'loc dieu kien 2
+                .AutoFilter field:=3, Criteria1:=tt
+                .Parent.AutoFilter.Range.Copy
+            End With
+            With sourceWb
+                .Sheets.Add after:=.Sheets(.Sheets.Count)
+                .Sheets(.Sheets.Count).Name = cn & " - " & tt
+                .Sheets(.Sheets.Count).Range("a1").PasteSpecial xlPasteValues
+            End With
+        Next
+    Next
 End Sub
