@@ -1,0 +1,18 @@
+Sub ImportData()
+    Dim FileLocation As String
+    Dim ImportWorkbook As Object
+
+    FileLocation = Application.GetOpenFilename
+    If FileLocation = "False" Then
+        Beep
+        Exit Sub
+    End If
+    
+    Application.ScreenUpdating = False
+    Set ImportWorkbook = Workbooks.Open(FileName:=FileLocation)
+    
+    ImportWorkbook.Worksheets(4).Range("A1:H50").Copy ThisWorkbook.Worksheets(1).Range("A1")
+    
+    ImportWorkbook.Close
+    Application.ScreenUpdating = True
+End Sub
