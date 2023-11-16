@@ -1,0 +1,21 @@
+Sub test()
+Dim num_of_cust As Long
+Dim num_of_column As Long
+Dim i As Long, j As Long
+Dim template As Object
+Dim t As Object
+
+num_of_column = 6
+
+num_of_cust = Sheet1.Cells(Rows.Count, "A").End(xlUp).Row - 1
+
+With CreateObject("word.application") ' late binding
+    .Visible = True
+
+    For i = 1 To num_of_cust
+        Set template = .documents.Open(ThisWorkbook.Path & "\template.docx")
+        Set t = template.Content
+        For j = 1 To num_of_column
+            t.Find.Execute _
+                
+        
