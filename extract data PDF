@@ -1,0 +1,20 @@
+Sub Extract_Data_from_PDF()
+
+Set MyWorksheet = ActiveWorkbook.Worksheets("Sheet1")
+Application_Path = "C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe"
+PDF_Path = "E:\ExcelDemy\standardnormaltable.pdf"
+
+Shell_Path = Application_Path & " """ & PDF_Path & """"
+Call Shell(pathname:=Shell_Path, windowstyle:=vbNormalFocus)
+
+Application.Wait Now + TimeValue("0:00:03")
+
+SendKeys "%vpc"
+SendKeys "^a"
+SendKeys "^c"
+
+MyWorksheet.Range("A1").PasteSpecial Paste:=xlPasteAll
+
+Call Shell("TaskKill /F /IM Acrobat.exe", vbHide)
+
+End Sub
