@@ -1,0 +1,14 @@
+Dim score1 As Integer
+Dim score2 As Integer
+Dim result As String
+
+score1 = Range("A1").Value
+score2 = Range("A2").Value
+
+If score1 >=60 Or score2 > 1 Then
+	result = "pass"
+Else
+	result = "fail"
+End If
+
+Range("C1").Value = result
