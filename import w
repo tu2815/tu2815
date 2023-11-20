@@ -1,7 +1,6 @@
 Sub importWord
 Dim xName As String
 
-
 Application.ScreenUpdating = False
 Application.DisplayAlerts = False
 
