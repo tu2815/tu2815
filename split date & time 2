@@ -1,0 +1,18 @@
+Sub Split_Date_and_Time_Range()
+
+Set Input_Range = Range("C3:C12")
+Set Output_Range = Range("D3:E12")
+
+For i = 1 To Input_Range.Rows.Count
+    Date_with_Time = Input_Range.Cells(i, 1)
+    Separated_Date = Int(Date_with_Time)
+    Separated_Time = Date_with_Time - Separated_Date
+    
+    Display_Date = Format(Separated_Date, "mm/dd/yyyy")
+    Display_Time = Format(Separated_Time, "hh:mm:ss")
+    
+    Output_Range.Cells(i, 1) = Display_Date
+    Output_Range.Cells(i, 2) = Display_Time
+Next i
+
+End Sub
