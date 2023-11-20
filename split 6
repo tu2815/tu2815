@@ -1,0 +1,15 @@
+Sub NumberOfWordsExample()
+
+Dim MyArray() As String
+Dim MyString As String
+
+MyString = "One Two Three Four Five Six"
+
+MyString = Replace(MyString, "  ", " ")
+
+MyString = Trim(MyString)
+
+MyArray = Split(MyString)
+
+MsgBox "Number of Words " & UBound(MyArray) + 1
+End Sub
