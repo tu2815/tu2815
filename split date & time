@@ -1,0 +1,14 @@
+Sub Split_Date_and_Time()
+
+Date_with_Time = CDate(InputBox("Enter the Date with Time: "))
+
+Separated_Date = Int(Date_with_Time)
+Separated_Time = Date_with_Time - Separated_Date
+
+Display_Date = Format(Separated_Date, "dd/mm/yyyy")
+Display_Time = Format(Separated_Time, "hh:mm:ss")
+
+Output = "Date: " + Display_Date + vbNewLine + vbNewLine + "Time: " + Display_Time
+MsgBox Output
+
+End Sub
