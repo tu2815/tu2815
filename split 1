@@ -1,0 +1,8 @@
+Sub SplitExample()
+Dim MyArray() As String, MyString As String, I As Variant
+MyString = "One Two Three Four"
+MyArray = Split(MyString)
+For Each I In MyArray
+    MsgBox I
+Next I
+End Sub
