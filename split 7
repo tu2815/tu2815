@@ -1,0 +1,17 @@
+Sub AddressExample()
+
+Dim MyArray() As String
+Dim MyString As String
+Dim N As Integer
+
+MyString = "Microsoft Corporation, One Microsoft Way, Redmond, WA 98052-6399 USA"
+
+MyArray = Split(MyString, ",")
+
+ActiveSheet.UsedRange.Clear
+
+For N = 0 To UBound(MyArray)
+     
+    Range("A" & N + 1).Value = MyArray(N)
+Next N
+End Sub
