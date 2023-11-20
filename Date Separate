@@ -1,0 +1,19 @@
+Function DateSeparate(st As String)
+On Error GoTo eH
+Dim j As Integer, d As Date, ar() As String, tmp As String
+d = 0
+ar = Split(st)
+For j = LBound(ar) To UBound(ar)
+tmp = ar(j)
+If IsDate(tmp) And Len(tmp) > 5 Then
+d = DateValue(tmp)
+Exit For
+End If
+Next j
+cont:
+DateSeparate = d
+Exit Function
+eH:
+d = 0
+Resume cont
+End Function
