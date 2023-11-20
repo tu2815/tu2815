@@ -1,0 +1,17 @@
+Sub SplitBySemicolonExample()
+Dim MyArray() As String
+Dim MyString As String
+Dim I As Variant
+Dim N As Integer
+
+MyString = "john@myco.com;jane@myco.com;bill@myco.com;james@myco.com"
+
+MyArray = Split(MyString, ";")
+
+ActiveSheet.UsedRange.Clear
+
+For N = 0 To UBound(MyArray)
+
+    Range("A" & N + 1).Value = MyArray(N)
+Next N
+End Sub
