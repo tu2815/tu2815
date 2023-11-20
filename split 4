@@ -1,0 +1,18 @@
+Sub SplitByCompareExample()
+
+Dim MyArray() As String
+Dim MyString As String
+Dim I As Variant
+Dim N As Integer
+
+MyString = "OneXTwoXThreexFourXFivexSix"
+
+MyArray = Split(MyString, "X", , vbBinaryCompare)
+
+ActiveSheet.UsedRange.Clear
+
+For N = 0 To UBound(MyArray)
+    'Place each split into the first column of the worksheet
+    Range("A" & N + 1).Value = MyArray(N)
+Next N
+End Sub
