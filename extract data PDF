@@ -1,18 +1,11 @@
 Sub Extract_Data_from_PDF()
 
-Dim myWorksheet As Worksheet
-Dim NitroPDF_Path As String
-Dim pathAndFileName As String
-Dim shellPathName As String
+Set MyWorksheet = ActiveWorkbook.Worksheets("Sheet1")
+Application_Path = "C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe"
+PDF_Path = "C:\Users\Administrator\Downloads\6.11.pdf"
 
-Set MyWorksheet = ActiveWorkbook.Worksheets("D0")
-
-NitroPDF_Path = "C:\Program Files\Nitro\Pro\13\NitroPDF.exe"
-pathAndFileName = "C:\Users\Administrator\Downloads\1K23TNH_00033057"
-shellPathName = NitroPDF_Path & " """ & pathAndFileName & """"
-
-Call Shell( _
-    pathName
+Shell_Path = Application_Path & " """ & PDF_Path & """"
+Call Shell(pathname:=Shell_Path, windowstyle:=vbNormalFocus)
 
 Application.Wait Now + TimeValue("0:00:03")
 
