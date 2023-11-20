@@ -1,0 +1,15 @@
+Sub SplitWithLimitExample()
+
+Dim MyArray() As String, MyString As String, I As Variant, N As Integer
+
+MyString = "One,Two,Three,Four,Five,Six"
+
+MyArray = Split(MyString, ",", 4)
+
+ActiveSheet.UsedRange.Clear
+
+For N = 0 To UBound(MyArray)
+    'Place each split into the first column of the worksheet
+    Range("A" & N + 1).Value = MyArray(N)
+Next N
+End Sub
