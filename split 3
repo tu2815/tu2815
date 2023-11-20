@@ -1,6 +1,8 @@
 Sub SplitWithLimitExample()
-
-Dim MyArray() As String, MyString As String, I As Variant, N As Integer
+Dim MyArray() As String 
+Dim MyString As String 
+Dim I As Variant
+Dim N As Integer
 
 MyString = "One,Two,Three,Four,Five,Six"
 
