@@ -1,0 +1,9 @@
+Sub SplitName()
+    Dim s As String: s = "John Henry Smith"
+    Dim arr() As String
+    arr = Split(s, " ")
+
+    Debug.Print arr(0) 'John
+    Debug.Print arr(1) 'Henry
+    Debug.Print arr(2) 'Smith
+End Sub
