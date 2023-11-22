@@ -3,34 +3,4 @@ If InStr("John Henry Smith", "Henry") > 0 Then
   Debug.Print "Found"
 End IF
 
-Sub ExtractString()
 
-    Dim s As String: s = "ABCD-7789.WXYZ"
-
-    Debug.Print Left(s, 2) ' Prints AB
-    Debug.Print Left(s, 4) ' Prints ABCD
-
-    Debug.Print Right(s, 2) ' Prints YZ
-    Debug.Print Right(s, 4) ' Prints WXYZ
-
-    Debug.Print Mid(s, 1, 2) ' Prints AB
-    Debug.Print Mid(s, 6, 4) ' Prints 7789
-
-End Sub
-
-Sub GetFirstname()
-
-    Dim s As Sring
-    Dim 1Position As Long
-
-    s = "John Henry Smith"
-    ' Prints John
-    1Position = InStr(s, " ") - 1
-    Debug.Print Left(s, 1Position)
-
-    s = "Lorraine Huggard"
-    ' Prints Lorraine
-    1Position = InStr(s, " ") - 1
-    Debug.Print Left(s, 1Position)
-
-End Sub
