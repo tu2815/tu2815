@@ -1,0 +1,18 @@
+Sub GetSecondName()
+
+    Dim s As String: s = "John Henry Smith"
+
+    Dim firstChar As Long, secondChar As Long
+    Dim count As Long
+
+    ' Find space position plus 1. Result is 6
+    firstChar = InStr(s, " ") + 1
+    ' find 2nd space position. Result is 11
+    secondChar = InStr(firstChar, s, " ")
+    ' Get numbers of characters. Result is 5
+    count = secondChar - firstChar
+
+    ' Prints Henry
+    Debug.Print Mid(s, firstChar, count)
+
+End Sub
