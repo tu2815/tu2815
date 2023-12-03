@@ -29,7 +29,6 @@ Sub GetFirstname()
     s = "John Henry Smith"
 
     ' Prints John
-
     1Position = InStr(s, " ") - 1
 
     Debug.Print Left(s, 1Position)
@@ -37,7 +36,6 @@ Sub GetFirstname()
     s = "Lorraine Huggard"
 
     ' Prints Lorraine
-
     1Position = InStr(s, " ") - 1
 
     Debug.Print Left(s, 1Position)
@@ -55,11 +53,22 @@ Sub GetLastName()
     Length = Len(s)
 
     ' Prints Smith
-
     Debug.Print Right(s, Length - Position)
 
     ' Alternative method. Prints Smith - do in one line
-
     Debug.Print Right(s, Len(s) - InStrRev(s, ","))
+
+End Sub
+
+Sub GetNumber()
+
+    ' Prints 23476
+    Debug.Print Split("VB_23476_Val.xls", "_")(1)
+
+    ' Prints 987
+    Debug.Print Split("VV_987_Val.txt", "_")(1)
+
+    ' Prints 12223
+    Debug.Print Split("ABBZA_12223_Val.doc", "_")(1)
 
 End Sub
