@@ -43,3 +43,23 @@ Sub GetFirstname()
     Debug.Print Left(s, 1Position)
 
 End Sub
+
+Sub GetLastName()
+
+    Dim s As String: s = "John,Henry,Smith"
+
+    Dim Position As Long, Length As Long
+
+    Position = InStrRev(s, ",")
+
+    Length = Len(s)
+
+    ' Prints Smith
+
+    Debug.Print Right(s, Length - Position)
+
+    ' Alternative method. Prints Smith - do in one line
+
+    Debug.Print Right(s, Len(s) - InStrRev(s, ","))
+
+End Sub
