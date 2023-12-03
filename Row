@@ -1,0 +1,11 @@
+Sub Select_Entire_Row()
+    Dim selectedRow As Long
+
+    selectedRow = Application.InputBox("Enter the row number to select:", Type:=1)
+
+    If selectedRow >= 1 And selectedRow <= Rows.count Then
+        Rows(selectedRow).Select
+    Else
+        MsgBox "Invalid row number. Please enter a valid row number."
+    End If
+End Sub
