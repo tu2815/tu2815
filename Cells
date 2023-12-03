@@ -424,3 +424,27 @@ Sub goto_group(control As IRibbonControl)
     CreateObject("Wscript.Shell").Run ("http://bit.ly/2vFBxDV")
 
 End Sub
+
+Sub JoinExample()
+
+Dim MyArray() As String
+
+Dim MyString As String
+
+Dim I As Variant
+
+Dim N As Integer
+
+Dim Target As String
+
+MyString = "One,Two,Three,Four,Five,Six"
+
+Range("A1").Value = MyString
+
+MyArray = Split(MyString, ",")
+
+Target = Join(MyArray,”;”)
+
+Range("A2").Value = Target
+
+End Sub
