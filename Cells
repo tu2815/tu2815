@@ -1,0 +1,11 @@
+Sub Selecting_Cells_With_Data()
+Set data_rng = ThisWorkbook.ActiveSheet.UsedRange
+data_rng.Cells(1, 1).Select
+For rw = 1 To data_rng.Rows.Count
+    For col = 1 To data_rng.Columns.Count
+        If data_rng.Cells(rw, col).Value <> "" Then
+            Union(Selection, data_rng.Cells(rw, col)).Select
+        End If
+    Next col
+Next rw
+End Sub
