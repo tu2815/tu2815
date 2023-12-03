@@ -97,3 +97,38 @@ sh.Columns("B").Delete
 sh.Cells.EntireRow.AutoFit
 
 End Sub
+
+Sub LietKeFileTrongThuMuc()
+
+    Dim folder_Path As String
+
+    Dim FileName As String
+
+    Dim i As Integer
+
+    FileName = Dir(folder_Path, vbDirectory)
+
+    folder_Path = ThisWorkbook.Sheets("0").Range("C4").Value
+
+    If Right(folder_Path, 1) <> "\" Then folder_Path = folder_Path & "\"
+
+FileName = Dir(folder_Path, vbDirectory)
+
+Do While FileName <> ""
+
+    ws.Range("A1").Value = "List file in folder"
+
+FileName = Dir(folder_Path, vbDirectory)
+
+i = 2
+    Do While Len(FileName) > 0
+
+        ws.Cells(i, 1).Value = FileName
+
+        FileName = Dir
+
+        i = i + 1
+
+    Loop
+
+End Sub
