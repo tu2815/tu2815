@@ -132,3 +132,49 @@ i = 2
     Loop
 
 End Sub
+
+Sub InsertPDFIntoExcel()
+
+    Dim pdfFilePath As String
+
+    Dim ws As Worksheet
+
+    Dim pdfObj As OLEObject
+    
+    pdfFilePath = "C:\Users\Administrator\Downloads\6.11.pdf"
+
+    Set ws = ThisWorkbook.Sheets("T11") 
+
+    Dim insertRow As Integer
+
+    Dim insertColumn As Integer
+
+    insertRow = 1 
+
+    insertColumn = 1 
+    
+    Set pdfObj = ws.OLEObjects.Add( _
+
+        ClassType:="AcroExch.Document", _
+
+        FileName:=pdfFilePath, _
+
+        Link:=False, _
+
+        DisplayAsIcon:=True, _
+
+        IconFileName:="C:\Windows\Installer\{AC76BA86-1033-FFFF-A776-0B0F0060E001}\PDFFile_8.ico", _
+
+        IconIndex:=0, _
+
+        IconLabel:="PDF File")
+  
+    pdfObj.Top = ws.Cells(insertRow, insertColumn).Top
+
+    pdfObj.Left = ws.Cells(insertRow, insertColumn).Left
+
+    pdfObj.Width = 100 ' Set the width of the embedded PDF (adjust as needed)
+
+    pdfObj.Height = 100 ' Set the height of the embedded PDF (adjust as needed)
+
+End Sub
