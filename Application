@@ -1,1 +1,99 @@
-dhhdhs
+Sub importWord
+
+Dim xObjDoc As Object
+
+Dim xWdApp As Object
+
+Dim xWdName As Variant
+
+Dim wb As Workbook
+
+Dim sh As Worksheet
+
+Dim dsh As String
+
+Dim lr, xRPP
+
+Application.ScreenUpdating = False
+
+Application.DisplayAlerts = False
+
+xWdName = Application.GetOpenFilename("Word file(*.doc;*.docx) ,*.doc;*.docx", , "Kutools - Please select")
+
+If xWdName = False Then Exit Sub
+
+Application.ScreenUpdating = False
+
+Set xWb = Application.ActiveWorkbook
+
+Set sh = xWb.Worksheets.Add
+
+Set xWdApp = CreateObject("Word.Application")
+
+xWdApp.ScreenUpdating = False
+
+xWdApp.DisplayAlerts = False
+
+Set xObjDoc = xWdApp.Documents.Open(Filename:=xWdName, ReadOnly:=True)
+
+xObjDoc.Activate
+
+lr = xObjDoc.Paragraphs.Count
+
+Set xRPP = xObjDoc.Range(Start:=xObjDoc.Paragraphs(1).Range.Start, End:=xObjDoc.Paragraphs(lr).Range.End)
+
+xRPP.Select
+
+On Error Resume Next
+
+xWdApp.Selection.Copy
+
+dsh = xObjDoc.Name
+
+dsh = Replace(dsh, ":", "_")
+
+dsh = Replace(dsh, "\", "_")
+
+dsh = Replace(dsh, "/", "_")
+
+dsh = Replace(dsh, "?", "_")
+
+dsh = Replace(dsh, "*", "_")
+
+dsh = Replace(dsh, "[", "_")
+
+dsh = Replace(dsh, "]", "_")
+
+If Len(dsh) > 31 Then
+
+    dsh = Left(dsh, 31)
+
+End If
+
+sh.Name = dsh
+
+sh.Range("A1").Select
+
+sh.Paste
+
+xObjDoc.Close
+
+Set xObjDoc = Nothing
+
+xWdApp.DisplayAlerts = True
+
+xWdApp.ScreenUpdating = True
+
+xWdApp.Quit (wdDoNotSaveChanges)
+
+Application.DisplayAlerts = True
+
+Application.ScreenUpdating = True
+
+sh.Columns("A").ColumnWidth = 80
+
+sh.Columns("B").Delete
+
+sh.Cells.EntireRow.AutoFit
+
+End Sub
