@@ -204,3 +204,45 @@ MyWorksheet.Range("A1").PasteSpecial Paste:=xlPasteAll
 Call Shell("TaskKill /F /IM Acrobat.exe", vbHide)
 
 End Sub
+
+Dim directory As String
+
+Dim fileName As String
+
+Dim sheet As Worksheet
+
+Dim i As Integer
+
+Dim j As Integer
+
+Application.ScreenUpdating = False
+
+directory = "c:\test\"
+
+fileName = Dir(directory & "*.xl??")
+
+Do While fileName <> ""
+
+Loop
+
+i = i + 1
+
+j = 2
+
+Cells(i, 1) = fileName
+
+Workbooks.Open (directory & fileName)
+
+For Each sheet In Workbooks(fileName).Worksheets
+
+	Workbooks("files-in-a-directory.xlsm").Worksheets(1).Cells(i, j).Value = sheet.Name
+
+	j = j + 1
+
+Next sheet
+
+Workbooks(fileName).Close
+
+fileName = Dir()
+
+Application.ScreenUpdating = True
