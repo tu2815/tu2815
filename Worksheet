@@ -1,32 +1,177 @@
 Sub loc_du_lieu()
+
     Dim sFullPath As String
+
     sFullPath = Application.GetOpenFilename(, _
+
                           Title:="Please select an Excel file")
+
     If TypeName(sFullPath) = "False" Then Exit Sub
+
     Dim sourceWb As Workbook
+
     Set sourceWb = Workbooks.Open(sFullPath)
 
     Dim cn As Range
+
     Dim tt As Range
 
     'dieu kien 1
     For Each cn In sourceWb.Sheets("Sheet1").Range("H1:H3")
+
         'dieu kien 2
         For Each tt In sourceWb.Sheets("Sheet1").Range("I1:I2")
+
             With sourceWb.Sheets("Sheet1").Range("A1:C7")
+
                 .Parent.AutoFilterMode = False
+
                 .AutoFilter
+
                 'loc dieu kien 1
                 .AutoFilter field:=1, Criteria1:=cn
+
                 'loc dieu kien 2
                 .AutoFilter field:=3, Criteria1:=tt
+
                 .Parent.AutoFilter.Range.Copy
+
             End With
+
             With sourceWb
+
                 .Sheets.Add after:=.Sheets(.Sheets.Count)
+
                 .Sheets(.Sheets.Count).Name = cn & " - " & tt
+
                 .Sheets(.Sheets.Count).Range("a1").PasteSpecial xlPasteValues
+
             End With
+
         Next
+
     Next
+
+End Sub
+
+Sub Dau_Diesel()
+
+Application.DisplayAlerts = False
+
+Application.ScreenUpdating = False
+
+Dim Inp As Worksheet
+
+Dim Samp As Worksheet
+
+Dim Output As Worksheet
+
+Set Inp = ThisWorkbook.Sheets("D0")
+
+Set Samp = ThisWorkbook.Sheets("D1")
+
+Set Output = ThisWorkbook.Sheets("D3")
+
+Samp.Cells.Clear
+
+Inp.AutoFilterMode = False
+
+Inp.UsedRange.Copy Samp.Range("A1")
+
+Samp.Range("M:Z").Clear
+
+Samp.UsedRange.RemoveDuplicates 2, xlYes
+
+Dim i As Integer, j As Integer, k As Integer
+
+Dim lr As Integer
+
+lr = Application.WorksheetFunction.CountA(Inp.Range("B:B"))
+
+Dim folder_Path As String
+
+folder_Path = ThisWorkbook.Sheets("2").Range("G6").Value
+
+If Right(folder_Path, 1) <> "\" Then folder_Path = folder_Path & "\"
+
+Dim nwb As Workbook
+
+If Application.WorksheetFunction.CountA(Samp.Range("B:B")) > 1 Then
+
+    For i = 2 To Application.WorksheetFunction.CountA(Samp.Range("B:B"))
+
+        Inp.UsedRange.AutoFilter 2, Samp.Cells(i, 2).Value
+
+        Output.Range("B8:K28").ClearContents
+
+        Inp.Range("M2:N" & lr).SpecialCells(xlCellTypeVisible).Copy
+
+        Output.Range("B8").PasteSpecial xlPasteValuesAndNumberFormats
+
+        Inp.Range("K2:K" & lr).SpecialCells(xlCellTypeVisible).Copy
+
+        Output.Range("E8").PasteSpecial xlPasteValuesAndNumberFormats
+
+        Inp.Range("G2:G" & lr).SpecialCells(xlCellTypeVisible).Copy
+
+        Output.Range("G8").PasteSpecial xlPasteValuesAndNumberFormats
+
+        Inp.Range("H2:I" & lr).SpecialCells(xlCellTypeVisible).Copy
+
+        Output.Range("J8").PasteSpecial xlPasteValuesAndNumberFormats
+
+        Inp.AutoFilterMode = False
+        
+        Output.Range("D2").Value = Samp.Cells(i, 2).Value
+
+        Output.Range("D4").Value = Samp.Cells(i, 3).Value
+
+        Output.Range("A36").Value = Samp.Cells(i, 4).Value
+        
+        If file_type = "PDF" Then
+
+            Output.ExportAsFixedFormat xlTypePDF, folder_Path & Samp.Cells(i, 2) & ".pdf"
+
+        ElseIf file_type = "EXCEL" Then
+
+            Output.Copy
+
+            Set nwb = ActiveWorkbook
+
+            nwb.Sheets(1).UsedRange.Copy
+
+            nwb.Sheets(1).UsedRange.PasteSpecial xlPasteValues
+
+            For k = 34 To 32 Step -1
+
+                If nwb.Sheets(1).Range("D" & k).Value = 0 Then
+
+                nwb.Sheets(1).Range("D" & k).EntireRow.Delete
+
+                End If
+
+            Next k
+
+            For j = 28 To 8 Step -1
+
+                If nwb.Sheets(1).Range("B" & j).Value = "" Then
+
+                nwb.Sheets(1).Range("B" & j).EntireRow.Delete
+
+                End If
+
+            Next j
+
+            nwb.SaveAs folder_Path & Samp.Cells(i, 2) & ".xlsx"
+
+            nwb.Close
+
+        End If
+        
+    Next i
+
+End If
+
+MsgBox "Done"
+
 End Sub
