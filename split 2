@@ -1,17 +1,36 @@
-Sub SplitBySemicolonExample()
-Dim MyArray() As String
-Dim MyString As String
-Dim I As Variant
-Dim N As Integer
+Sub ForUsingArray_Assign_Individual()
 
-MyString = "john@myco.com;jane@myco.com;bill@myco.com;james@myco.com"
+		Dim dsh As Worksheet
+		Set dsh = ThisWorkbook.Worksheets("Data")
 
-MyArray = Split(MyString, ";")
+		Dim tsh As Worksheet
+		Set tsh = ThisWorkbook.Worksheet("Report")
 
-ActiveSheet.UsedRange.Clear
+		With tsh
 
-For N = 0 To UBound(MyArray)
+			tsh.Cells.ClearContents
 
-    Range("A" & N + 1).Value = MyArray(N)
-Next N
+			.Columns(2).NumberFormat =
+
+		End With
+
+		Dim arr As Variant
+		arr = tsh.Range("A1").CurrentRegion.Value2
+
+		Dim i As Long, rgWrite AsRange, r As Long
+		r = 1
+		For i = LBound(arr) To UBound(arr)
+
+				If arr(i, 1) = "Laptop Model A" Or i = 1 Then
+
+						tsh.Cells(r, 1).Value2 = arr(i, 1)
+
+						tsh.Cells(r, 2).Value2 = arr(i, 5)
+
+						r = r + 1
+
+				End If
+		
+		Next i
+
 End Sub
