@@ -1,32 +1,14 @@
-Sub Select_Entire_Row()
-    Dim selectedRow As Long
+Sub AdvancedFilter_EntireRow()
 
-    selectedRow = Application.InputBox("Enter the row number to select:", Type:=1)
+	Call TurnOffFunctionality
 
-    If selectedRow >= 1 And selectedRow <= Rows.count Then
-        Rows(selectedRow).Select
-    Else
-        MsgBox "Invalid row number. Please enter a valid row number."
-    End If
-End Sub
+	Dim rgData As Range, rgCriteria As Range, rgCopyToRangr As Range
+	Set rgData = shDataAF.Range("A5").CurrentRegion
+	Set rgCriteria = shDataAF.Range("A1").CurrentRegion
+	Set rgCopyToRange = shDataAF.Range("F5").CurrentRegion.rows(1)
 
-Sub Select_Rows_in_Range()
-    Dim inputRange As Range
-    Dim startRow As Long, endRow As Long
+	rgData.AdvancedFilter xlFilterCopy, rgCriteria, rgCopyToRange
 
-    Set inputRange = Application.InputBox("Select the range from where you want to select rows:", Type:=8)
+	Call TurnOnFunctionality
 
-    If Not inputRange Is Nothing Then
-
-        startRow = Application.InputBox("Enter the start row number:", Type:=1)
-        endRow = Application.InputBox("Enter the end row number:", Type:=1)
-
-        If startRow >= 1 And endRow >= startRow Then
-            inputRange.Rows(startRow & ":" & endRow).Select
-        Else
-            MsgBox "Invalid row numbers. Please enter valid start and end rows."
-        End If
-    Else
-        MsgBox "No valid range is selected."
-    End If
 End Sub
