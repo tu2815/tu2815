@@ -1,14 +1,21 @@
-Dim score1 As Integer
-Dim score2 As Integer
-Dim result As String
+Public Sub ForLoop_CopyRow()
 
-score1 = Range("A1").Value
-score2 = Range("A2").Value
+	Call TurnOffFunctionality
 
-If score1 >=60 Or score2 > 1 Then
-	result = "pass"
-Else
-	result = "fail"
-End If
+	Dim rg As Range
+	Set rg = shData.Range("A1").CurrentRegion
 
-Range("C1").Value = result
+	Dim outRow As Long
+	outRow = 2
+
+	For i = 2 To rg.rows.Count
+
+		If StrComp(rg.Cells(i, 2).Value, "Jill", vbTextCompare) = 0 Then
+			shData.Range("F" & outRow).Resize(1, rg.columns.Count) = rg.rows(i).Value
+
+			outRow = outRow + 1
+		End If
+
+	Next i
+
+End Sub
