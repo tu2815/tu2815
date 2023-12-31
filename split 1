@@ -1,8 +1,36 @@
-Sub SplitExample()
-Dim MyArray() As String, MyString As String, I As Variant
-MyString = "One Two Three Four"
-MyArray = Split(MyString)
-For Each I In MyArray
-    MsgBox I
-Next I
+Sub For_Assign_Individual()
+
+	Dim dsh As Worksheet
+	Set dsh = ThisWorkbook.Worksheets("Data1"
+
+	Dim tsh As Worksheet
+	Set tsh = ThisWorkbook.Worksheets("Report")
+
+	Dim rg As Range
+	Set rg = dsh.Range("A1").CurrentRegion
+
+	With tsh
+			
+			tsh.Cells.ClearContents
+
+			.Columns(2).NumberFormat = 
+
+	End With
+
+	Dim i As Long, rgWrite As Range, r As Long
+	r = 1
+	For i = 1 To rg.Rows.count
+
+			If rg.Cells(i, 1).Value2 = "Laptop Model A" Or i = 1 Then
+
+					tsh.Cells(r, 1).Value2 = rg.Cells(i, 1).Value2
+
+					tsh.Cells(r, 2).Value2 = rg.Cells(i, 5).Value2
+
+					r = r + 1
+
+			End If
+
+		Next i
+
 End Sub
