@@ -1,21 +1,37 @@
-Sub gop_du_lieu()
-    Dim ws As Worksheet
-    Dim r As Range
-    Dim lr As Long
-    Dim c As Long
+Sub ForUsingArray_Assign()
 
-    For Each ws In Worksheets
-        If ws.Name <> "Tong hop" Then
-            c = c + 1
-            If c = 1 Then
-                Set r = ws.Range("A1").CurrentRegion
-                lr = r.Rows.Count + 3
-                r.Copy Sheet1.Range("A4")
-            Else
-                Set r = ws.Range("A1").CurrentRegion.Offset(1)
-                r.Copy Sheet1.Range("A" & lr + 1)
-                lr = lr + r.Rows.Count - 1
-            End If
-        End If
-    Next
+	Dim dsh As Worksheet
+	Set dsh = ThisWorkbook.Worksheets("Data")
+
+	Dim tsh As Worksheet
+	Set tsh = ThisWorkbook.Worksheets("Report")
+
+	Dim arr As Variant
+	arr = tsh.Range("A1").CurrentRegion.Value2
+
+	With tsh
+
+			tsh.Cells.ClearContents
+			
+			.Columns(2).NumberFormat = "dd/mm/yyyy"
+
+	End With
+
+	Dim i As Long, j As Long
+	Dim r As Long, c As Long
+	r = 1
+	For i = LBound(arr) To UBound(arr)
+
+			If arr(i, 1) = "Laptop Model A" Or i = 1 Then
+
+					For j = LBound(arr, 2) To UBound(arr, 2)
+						tsh.Cells(r, j).Value2 = arr(i, j)
+					Next j
+
+					r = r + 1
+			
+			End If
+
+	Next i
+
 End Sub
