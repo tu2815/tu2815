@@ -1,6 +1,35 @@
-'Check if string contains Henry
-If InStr("John Henry Smith", "Henry") > 0 Then
-  Debug.Print "Found"
-End IF
+Sub For_Assign()
 
+	Dim dsh As Worksheet
+	Set dsh = ThisWorkbook.Worksheets("Data1")
 
+	Dim tsh As Worksheet
+	Set tsh = ThisWorkbook.Worksheets("Report")
+
+	Dim rg As Range
+	Set rg = dsh.Range("A1").CurrentRegion
+	With tsh
+		
+			tsh.Cells.ClearContents
+
+			.Columns(2)NumberFormat = "dd/mm/yyyy"
+
+	End With
+
+	Dim i As Long, j As Long
+	row = 1
+	For i = 1 To rg.Rows.count
+
+		If rg.Cells(i, 1).Value2 = "Laptop Model A" Or i = 1 Then
+
+				Dim rgDest As Range
+				Set rgDest = tsh.Range("A" & row).Resize(1, rg.Columns.count)
+						
+				rgDest.Value2 = rg.Rows(i).Value2
+
+				row = row + 1
+		End If
+	
+	Next i
+
+End Sub
